@@ -18,8 +18,7 @@ if (Meteor.isClient) {
    },
 
    incompleteCount: function () {
-    return Tasks.find({checked: {$ne: true}}).count();
-
+    return Tasks.find({checked: {$ne: true}}).count();                                               
    }
   });
 
@@ -34,7 +33,9 @@ if (Meteor.isClient) {
       // Insert a task into the collection
       Tasks.insert({
         text: text,
-        createdAt: new Date() // current time
+        createdAt: new Date(), // current time
+        owner: Meteor.userId(),
+        username: Meteor.user().username
       });
  
       // Clear form
@@ -58,6 +59,11 @@ if (Meteor.isClient) {
     }
 
    });
+
+   Accounts.ui.config({
+    passwordSignupFields: "USERNAME_ONLY"
+
+   })
 }
 
 if (Meteor.isServer) {
